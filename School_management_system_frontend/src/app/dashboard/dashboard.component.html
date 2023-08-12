@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<body class="dash-body">
+
+<div class="container-fluid">
+  <!-- navbar -->
+    <nav class="navbar" style="background-color: #82bcf7;">
+        <div class="container-fluid">
+            <div>
+            <a class="navbar-brand">
+              <img src="assets/logo1.png" width="32" height="32" class="d-inline-block align-text-top">
+              Welcome to School Management System
+            </a>
+            <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#addTeacher" type="submit">Add Teacher Profile</button>
+            </div> 
+            <div>
+            <button class=logout-button (click)="clickLogout()">
+              <i class="fas fa-sign-out-alt"></i>LogOut</button>
+           </div>
+        </div>
+      </nav>  
+      <br>
+     <br>
+</div>
+<!-- Table Creation -->
+<div class="container">
+<table id="table_decor" class="table table-primary table-striped">
+<!-- <table class="table table-hover"> -->
+  <thead>
+    <tr>
+      <th scope="col">Teacher ID</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Subject</th>
+      <th scope="col">Salary</th>
+      <th scope="col">Action</th>
+    </tr><br>
+  </thead>
+  <tbody>
+    <tr *ngFor="let teacher of teacherList">
+      <td>{{teacher.id}}</td>
+      <td>{{teacher.firstname}}</td>
+      <td>{{teacher.lastname}}</td>
+      <td>{{teacher.subject}}</td>
+      <td>{{teacher.salary}}</td>
+      <td>
+    <button type="button" class="btn btn-outline-success me-2" data-bs-toggle="modal" data-bs-target="#editTeacher" (click)="editTeacher(teacher)"><b class="e">Edit</b></button>
+    <button type="button" class="btn btn-outline-danger" (click)="deleteTeacher(teacher)"><b class="d">Delete</b></button>
+      </td>
+   </tr>
+  </tbody>
+</table>
+</div>
+
+ <!-- teacher details  --
+ <!-- <div>
+    <h2>View Teacher Deatils </h2>
+    <div id="getTeacherDetails" > 
+
+      <div *ngFor="let teacher of teacherList">
+      <div>
+        <label><b>Teacher ID :</b></label>{{teacher.id}}
+    </div>
+    <div>
+        <label><b>First Name :</b></label>{{teacher.firstname}}
+    </div>
+    <div>
+        <label><b>Last Name :</b></label>{{teacher.lastname}}
+    </div>
+    <div>
+        <label><b>Subject :</b></label>{{teacher.subject}}
+    </div>
+    <div>
+        <label><b>Salary :</b></label>{{teacher.salary}}
+    </div>
+      </div>
+
+  </div>
+  </div>  -->
+   
+<!-- Add Teacher--> 
+<div class="modal fade" id="addTeacher" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <a class="img">
+      </a>
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Teacher</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">     
+        <form [formGroup]="teacherDetail" (ngSubmit)="loginUser()">
+          <div class="mb-3">
+            <label class="form-label">Teacher ID</label>
+            <input type="number" formControlName="id" class="form-control" id="id" aria-describedby="emailHelp">
+            <span style="color: red;" *ngIf="id && id.invalid && id.touched">
+              <br>Invalid input field</span>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input type="text" formControlName="firstname" class="form-control" id="firstname" aria-describedby="emailHelp">
+            <span style="color: red;" *ngIf="firstname && firstname.invalid && firstname.touched">
+              <br>Invalid input field</span>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Last Name</label>
+            <input type="text" formControlName="lastname" class="form-control" id="lastname" aria-describedby="emailHelp">
+            <span style="color: red;" *ngIf="lastname && lastname.invalid && lastname.touched">
+              <br>Invalid input field</span>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Subject</label>
+            <input type="text" formControlName="subject" class="form-control" id="subject" aria-describedby="emailHelp">
+            <span style="color: red;" *ngIf="subject && subject.invalid && subject.touched">
+              <br>Invalid input field</span>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Salary</label>
+            <input type="number" formControlName="salary" class="form-control" id="salary" aria-describedby="emailHelp">
+            <span style="color: red;" *ngIf="salary && salary.invalid && salary.touched">
+              <br>Invalid input field</span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            <button [disabled]="teacherDetail.invalid" type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="addTeacher()" >Add Profile</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Update Teacher-->
+<div class="modal fade" id="editTeacher" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Teacher Details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- update form -->
+        <form [formGroup]="teacherDetail">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Teacher ID</label>
+            <input type="number" formControlName="id" class="form-control" id="id" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">First Name</label>
+            <input type="text" formControlName="firstname" class="form-control" id="firstname" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Last Name</label>
+            <input type="text" formControlName="lastname" class="form-control" id="lastname" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Subject</label>
+            <input type="test" formControlName="subject" class="form-control" id="subject" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Salary</label>
+            <input type="number" formControlName="salary" class="form-control" id="salary" aria-describedby="emailHelp">
+          </div>     
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" (click)="updateTeacher()" data-bs-dismiss="modal">Update</button>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+</body>
+
+
+
